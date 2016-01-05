@@ -11,6 +11,10 @@
     "ember-resolver": "~0.1.18",
     "jquery": "^1.11.3",
     "loader.js": "ember-cli/loader.js#3.2.1",
-    "qunit": "~1.18.0"
+    "qunit": "~1.18.0",
+    "mojio-js": "~3.5.2"
+  },
+  "resolutions": {
+    "jquery": ">= 1.7.0 < 2.2.0"
   }
 }
