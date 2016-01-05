@@ -104,23 +104,23 @@ export default Ember.Controller.extend({
             function setupTableHeaders(dataType){
                 var div,i,row;
                 if (dataType === 'Token'){
-                    var table = $('<table></table>').attr('id', 'tokenDataTable');
+                    var table = $('<table class="table table-striped table-bordered table-hover"></table>').attr('id', 'tokenDataTable');
                     row = $('<tr><th>ApplicationId</th><th>TokenId</th><th>ValidUntil</th></tr>');
                     table.append(row);
                     $('#result1').append(table);
                 }
                 if (dataType === 'User'){
-                    var table = $('<table></table>').attr('id', 'userDataTable');
+                    var table = $('<table class="table table-striped table-bordered table-hover"></table>').attr('id', 'userDataTable');
                     row = $('<tr><th>UserId</th><th>UserName</th><th>Email</th></tr>');
                     table.append(row);
                     $('#result2').append(table);
                 }
                 if (dataType === 'Vehicle'){
-                    var table = $('<table></table>').attr('id', 'vehicleDataTable');
+                    var table = $('<table class="table table-striped table-bordered table-hover"></table>').attr('id', 'vehicleDataTable');
                     row = $('<tr><th>VehicleId</th><th>VIN</th><th>FaultDetected</th></tr>');
                     table.append(row);
                     $('#result3').append(table);
-                    $('#vehicleDataType').css('border', '1px solid black');
+                    //$('#vehicleDataType').css('border', '1px solid black');
                 }
             }
 
@@ -142,12 +142,18 @@ export default Ember.Controller.extend({
                 if(rowData.Type==='Vehicle'){
                     var row = $("<tr />");
                     var faultDetected = rowData.FaultsDetected;
+                    var vin = rowData.VIN;
                     if (faultDetected === true){
-                        row.css('background-color', '#ff4d4d');
+                        row.addClass('danger');
+                        row.attr('id', rowData._id);
                     }
                     $("#vehicleDataTable").append(row);
                     row.append($("<td>" + rowData._id + "</td>"));
-                    row.append($("<td>" + rowData.VIN + "</td>"));
+
+                    if (vin === undefined){
+                        vin = 'N/A';
+                    }
+                    row.append($("<td>" + vin + "</td>"));
 
                     row.append($("<td>" + rowData.FaultsDetected + "</td>"));
                 }
