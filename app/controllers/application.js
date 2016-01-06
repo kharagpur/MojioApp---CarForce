@@ -41,9 +41,9 @@ export default Ember.Controller.extend({
                 }
                 return mojio_client.token(function(error, result) { //Authentication
                     if (error) {
-                        if (confirm("A token is not available, you are logged out. Press ok to login.")) {
+                        //if (confirm("A token is not available, you are logged out. Press ok to login.")) {
                             return mojio_client.authorize(config.redirect_uri);
-                        }
+                        //}
                     }
                     else {
                             window.location.hash="";
@@ -97,7 +97,7 @@ export default Ember.Controller.extend({
                     if(i===0){// Setup table header
                         setupTableHeaders(data[0].Type);
                     }
-                    drawRow(data[i]);
+                    drawRow(i+1,data[i]);
                 }
             }
 
@@ -117,14 +117,14 @@ export default Ember.Controller.extend({
                 }
                 if (dataType === 'Vehicle'){
                     var table = $('<table class="table table-striped table-bordered table-hover"></table>').attr('id', 'vehicleDataTable');
-                    row = $('<tr><th>VehicleId</th><th>VIN</th><th>FaultDetected</th></tr>');
+                    row = $('<tr><th>Number</th><th>VehicleId</th><th>VIN</th><th>FaultDetected</th></tr>');
                     table.append(row);
                     $('#result3').append(table);
                     //$('#vehicleDataType').css('border', '1px solid black');
                 }
             }
 
-            function drawRow(rowData) {
+            function drawRow(counter, rowData) {
                 if(rowData.Type === 'Token'){
                     var row = $("<tr />");
                     $("#tokenDataTable").append(row);
@@ -143,20 +143,48 @@ export default Ember.Controller.extend({
                     var row = $("<tr />");
                     var faultDetected = rowData.FaultsDetected;
                     var vin = rowData.VIN;
-                    if (faultDetected === true){
-                        row.addClass('danger');
-                        row.attr('id', rowData._id);
-                    }
+                    var dtc, dtcTable, dtcTableRow;
                     $("#vehicleDataTable").append(row);
+                    row.append($("<td>" + counter + "</td>"));
                     row.append($("<td>" + rowData._id + "</td>"));
 
                     if (vin === undefined){
                         vin = 'N/A';
                     }
                     row.append($("<td>" + vin + "</td>"));
-
-                    row.append($("<td>" + rowData.FaultsDetected + "</td>"));
+                    if (faultDetected === true){
+                        row.addClass('danger');
+                        row.attr('id', rowData._id);
+                        dtc = rowData.DiagnosticCodes;
+                        dtcTable = $('<table class="table table-striped table-bordered table-hover"></table>');
+                        dtcTableRow = $('<tr><th>Code</th><th>Description</th><th>Details</th><th>Severity</th></tr>');
+                        dtcTable.append(dtcTableRow);
+                        for(var i=0; i<dtc.DiagnosticCodes.length; i++)
+                        {
+                            dtcTableRow = $('<tr><th>'+ dtc.DiagnosticCodes[i].Code +'</th><th>'+ dtc.DiagnosticCodes[i].Description +'</th><th>'+ dtc.DiagnosticCodes[i].Details +'</th><th>'+ dtc.DiagnosticCodes[i].Severity +'</th></tr>');
+                            dtcTable.append(dtcTableRow);
+                        }
+                        row.append(dtcTable);
+                    }
+                    else
+                    {
+                        row.append($("<td>" + faultDetected + "</td>"));
+                    }
                 }
+            }
+
+            function getDtc(vehicleId, element){
+                var vehicle, vehicles, div;
+                mojio_client.get(Vehicle, {limit:100}, function(error, result) {
+                    if (error) {
+                        alert("Error: occured when retreving vehicles");
+                    }
+                    else{
+                        vehicles = mojio_client.getResults(Vehicle, result);
+                        //vehicle = vehicles[0];
+                        drawTable(vehicles);
+                    }
+                });
             }
         }).call(this);
     }
