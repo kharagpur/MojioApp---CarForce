@@ -1,3 +1,10 @@
+.logo {
+        background-image: url('images/carforce_black_stacked_t.png');
+        background-size:auto;
+        width:160px;
+        height:101px;
+}
+
 /*
 @import url('/assets/bootstrap.css');
 @import url('/assets/bootstrap-theme.css');
