@@ -3,6 +3,14 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
     data: null,
 
+    loginData: null,
+
+    actions: {
+            getUser: function(){
+                alert("getUser");
+            }
+    },
+
     init: function(){
         this._super();
         var self = this;
@@ -47,8 +55,9 @@ export default Ember.Controller.extend({
                     }
                     else {
                             window.location.hash="";
-                            drawTable([result]);
-                            $("#getUserButton").click(function(){
+                            //drawTable([result]);
+                            self.set("loginData", result);
+                            $("#").click(function(){
                                 getUsers();
                                 $("#getUserButton").remove();
                             });

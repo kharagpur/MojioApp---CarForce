@@ -1,16 +1,35 @@
 <!--<h2 id="title">Car Force</h2>-->
-<div class="logo"></div>
-{{data}}
+<div class="container">
+    <div class="logo"></div>
+    {{data}}
 
-<div id="result1"></div>
-<br/>
-<div id="result2"></div>
-<p><button class="btn btn-default" id="getUserButton">Get User</button></p>
-<br/>
-<div id="result3"></div>
-<p><button class="btn btn-default" id="getVehicleButton">Get Vehicles</button></p>
-<br/>
-<div id="result4"></div>
-<br/>
-<div id="result5"></div>
-<br/>
+    <div id="result1">
+        {{#if loginData}}
+        <table class="table table-striped table-bordered table-hover" id="tokenDataTable">
+            <tbody>
+                <tr>
+                    <th>ApplicationId</th>
+                    <th>TokenId</th>
+                    <th>ValidUntil</th>
+                </tr>
+                <tr>
+                    <td>{{loginData.AppId}}</td>
+                    <td>{{loginData._id}}</td>
+                    <td>{{loginData.ValidUntil}}</td>
+                </tr>
+            </tbody>
+        </table>
+        {{/if}}
+    </div>
+
+    <div class="table-responsive" id="result2"></div>
+    <p><button {{action "getUser"}} class="btn btn-default" id="getUserButton">Get User</button></p>
+    <br/>
+    <div id="result3"></div>
+    <p><button class="btn btn-default" id="getVehicleButton">Get Vehicles</button></p>
+    <br/>
+    <div id="result4"></div>
+    <br/>
+    <div id="result5"></div>
+    <br/>
+</div>
