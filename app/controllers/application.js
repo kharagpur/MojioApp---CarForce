@@ -5,10 +5,52 @@ export default Ember.Controller.extend({
 
     loginData: null,
 
+    hideButton : false,
+
+    client: null,
+
+    Users: function (){
+        return new client.model('User')
+    },
+
+
+
     actions: {
             getUser: function(){
-                alert("getUser");
+                //alert("getUser");
+                //client.getMojioUsers();
+                this.set("hideButton", true);
+
+                var users, user, div;
+                client.get(User, {}, function(error, result){
+                    if (error){
+                        alert("Error occured when retreving users");
+                    }
+                    else{
+                        //users = client.getResults(User, result);
+                        //user = users[0];
+                        this.drawTable(users);
+                        this.set('userData', result);
+                        //self.set('data', 'kennethw@moj.io');
+                    }
+                });
+
+
+
+
+                //$("#getUserButton").remove();
             }
+    },
+
+    drawTable: function(data) {
+        alert("hello");
+        // for (var i = 0; i < data.length; i++) {
+        //     if(i===0){// Setup table header
+        //         setupTableHeaders(data[0].Type);
+        //         //use handlebar to send data
+        //     }
+        //     drawRow(i+1,data[i]);
+        // }
     },
 
     init: function(){
@@ -57,11 +99,11 @@ export default Ember.Controller.extend({
                             window.location.hash="";
                             //drawTable([result]);
                             self.set("loginData", result);
-                            $("#").click(function(){
-                                getUsers();
-                                $("#getUserButton").remove();
-                            });
-
+                            // $("#").click(function(){
+                            //     getUsers();
+                            //     $("#getUserButton").remove();
+                            // });
+                            self.set("client", mojio_client);
                             $("#getVehicleButton").click(function(){
                                 getVehicles();
                                 $("#getVehicleButton").remove();
@@ -72,7 +114,7 @@ export default Ember.Controller.extend({
 
 
 
-            function getUsers(){
+            function getMojioUsers(){
                 var users, user, div;
                 mojio_client.get(User, {}, function(error, result){
                     if (error){
