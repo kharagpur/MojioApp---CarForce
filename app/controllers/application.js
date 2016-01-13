@@ -78,7 +78,7 @@ export default Ember.Controller.extend({
 
             (function() {
                 var div;
-                self.set('data', 'Application Written by:');
+                //self.set('data', 'Application Written by:');
                 if (config.application === 'Your-Application-Key-Here') {
                     div = document.getElementById('result');
                     div.innerHTML += 'Mojio Example Error:: Set your application key in authorize.coffee/authorize.js.  ';
@@ -131,7 +131,7 @@ export default Ember.Controller.extend({
 
             function getVehicles(){
                 var vehicle, vehicles, div;
-                mojio_client.get(Vehicle, {limit:100}, function(error, result) {
+                mojio_client.get(Vehicle, {limit:500}, function(error, result) {
                     if (error) {
                         alert("Error: occured when retreving vehicles");
                     }
